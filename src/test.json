@@ -1,0 +1,169 @@
+{
+  "nodesInfo": {
+    "start": {
+      "string": "start",
+      "type": "deafultShape",
+      "width": 80,
+      "height": 80,
+      "x": 105,
+      "y": 40
+    },
+    "cond1": {
+      "string": "big than 1?",
+      "type": "deafultShape",
+      "width": 80,
+      "height": 80,
+      "x": 105,
+      "y": 170
+    },
+    "mid1": {
+      "string": "mid",
+      "type": "deafultShape",
+      "width": 80,
+      "height": 80,
+      "x": 40,
+      "y": 300
+    },
+    "mid2": {
+      "string": "mid2",
+      "type": "Condition",
+      "width": 80,
+      "height": 80,
+      "x": 170,
+      "y": 300
+    },
+    "close": {
+      "string": "close",
+      "type": "deafultShape",
+      "width": 80,
+      "height": 80,
+      "x": 105,
+      "y": 430
+    }
+  },
+  "arrowsInfo": [
+    {
+      "from": "start",
+      "to": "cond1",
+      "string": null,
+      "type": "defaultArrow",
+      "points": [
+        {
+          "x": 105,
+          "y": 80
+        },
+        {
+          "x": 105,
+          "y": 105
+        },
+        {
+          "x": 105,
+          "y": 130
+        }
+      ]
+    },
+    {
+      "from": "cond1",
+      "to": "mid1",
+      "string": "yes",
+      "type": "defaultArrow",
+      "points": [
+        {
+          "x": 65,
+          "y": 210
+        },
+        {
+          "x": 40,
+          "y": 235
+        },
+        {
+          "x": 40,
+          "y": 260
+        }
+      ]
+    },
+    {
+      "from": "cond1",
+      "to": "mid2",
+      "string": "no",
+      "type": "Arrow",
+      "points": [
+        {
+          "x": 145,
+          "y": 210
+        },
+        {
+          "x": 170,
+          "y": 235
+        },
+        {
+          "x": 170,
+          "y": 260
+        }
+      ]
+    },
+    {
+      "from": "mid1",
+      "to": "close",
+      "string": null,
+      "type": "Arrow",
+      "points": [
+        {
+          "x": 40,
+          "y": 340
+        },
+        {
+          "x": 40,
+          "y": 365
+        },
+        {
+          "x": 65,
+          "y": 390
+        }
+      ]
+    },
+    {
+      "from": "mid2",
+      "to": "close",
+      "string": null,
+      "type": "defaultArrow",
+      "points": [
+        {
+          "x": 170,
+          "y": 340
+        },
+        {
+          "x": 170,
+          "y": 365
+        },
+        {
+          "x": 145,
+          "y": 390
+        }
+      ]
+    }
+  ],
+  "types": {
+    "deafultShape": {
+      "fill": "green",
+      "stroke": "black",
+      "strokeWidth": "4",
+      "width": "80",
+      "height": "80"
+    },
+    "defaultArrow": {},
+    "Condition": {
+      "fill": "green",
+      "stroke": "black",
+      "strokeWidth": "4",
+      "width": "80",
+      "height": "80",
+      "extend": "deafultShape",
+      "color": "yellow"
+    },
+    "Arrow": {
+      "type": "arrow",
+      "test": "test"
+    }
+  }
+}
