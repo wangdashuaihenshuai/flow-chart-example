@@ -23,8 +23,13 @@ type Condition struct {
 
 type Close struct {
   "extend": "deafultShape",
+  "width": 80,
+  "height": 80,
+  "cornerRadius": 50,
   "fontType": {
-    "padding": 20
+    "fontSize": 16,
+    "offsetY": -30,
+    "padding": 0
   },
   "fill": "#da5961"
 }
@@ -102,6 +107,10 @@ def beforeClose("Teardown watchers, child components and event listeners")
 end
 
 def close:Close("destroyed")
+  () -> en
+end
+
+def en:Close("结束")
 end
 `
 const opt = {
@@ -130,6 +139,14 @@ const opt = {
         align: 'center'
       }
     },
+    defaultFontType: {
+      'fontSize': 16,
+      'fontFamily': 'Calibri',
+      'fill': '#fff',
+      'fontStyle': 'bold',
+      'align': 'center',
+      'padding': 20
+    },
     defaultArrow: {
       stroke: '#8699a3',
       strokeWidth: 3,
@@ -140,12 +157,13 @@ const opt = {
 }
 const input = layout(compiler(code, opt))
 
-var width = window.innerWidth
-var height = window.innerHeight
+const {container} = input
+var width = container.width
+var height = container.height
 var stage = new Konva.Stage({
   container: 'container',
   width: width,
-  height: height * 3
+  height: height
 })
 
 const layer = new Konva.Layer()
@@ -215,7 +233,6 @@ const draw = function (info, opt = {}) {
     Box(x, y, width, height, string, type)
   }
 }
-console.log(input)
 draw(input)
 
 stage.add(layer)
