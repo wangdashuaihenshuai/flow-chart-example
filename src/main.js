@@ -23,6 +23,9 @@ type Condition struct {
 
 type Close struct {
   "extend": "deafultShape",
+  "fontType": {
+    "padding": 20
+  },
   "fill": "#da5961"
 }
 
@@ -43,18 +46,17 @@ type Blank struct {
   }
 }
 
-type Arrow struct {
-  "extend": "defaultArrow",
-  "stroke": "#fcb738"
-}
-
 type DashArrow struct {
   "extend": "defaultArrow",
   "dash": [8, 5]
 }
 
+def action:Close("开始")
+  () -> start
+end
+
 def start:Start("new Vue()")
-  :Arrow() -> observeData
+  () -> observeData
 end
 
 def observeData("Observe Data")
@@ -70,24 +72,32 @@ def cond1:Condition("Has 'el' option?")
   :DashArrow("no") -> blank
 end
 
-def blank:Blank("vm.$mount called")
+def blank:Blank("vm.$mount(el) is called")
   :DashArrow() -> cond2
 end
 
-def cond2:Condition("has 'template'")
+def cond2:Condition("has 'template' option?")
   ("yes") -> func
   ("no") -> html
 end
 
-def func("reder function")
+def func("Compile template into reder function")
   () -> create
 end
 
-def html("compiler html")
+def html("Compile el's outerHTML as template")
   () -> create
 end
 
-def create("create vm")
+def create("Create vm.$el and replace 'el' with it")
+  () -> mounted
+end
+
+def mounted:Close("mounted")
+  () ->beforeClose
+end
+
+def beforeClose("Teardown watchers, child components and event listeners")
   () -> close
 end
 
@@ -99,12 +109,23 @@ const opt = {
     deafultShape: {
       fill: '#3ab882',
       cornerRadius: 10,
-      width: 120,
-      height: 60,
+      maxWidth: 180,
       fontType: {
         fontSize: 16,
         fontFamily: 'Calibri',
+        padding: 20,
         fill: '#fff',
+        fontStyle: 'bold',
+        align: 'center'
+      }
+    },
+    defaultAnnotation: {
+      fill: '#fff',
+      fontType: {
+        fontSize: 16,
+        fontFamily: 'Calibri',
+        padding: 5,
+        fill: '#8699a3',
         fontStyle: 'bold',
         align: 'center'
       }
@@ -124,14 +145,13 @@ var height = window.innerHeight
 var stage = new Konva.Stage({
   container: 'container',
   width: width,
-  height: height * 2
+  height: height * 3
 })
 
 const layer = new Konva.Layer()
 
-const Text = function (x, y, width, label, style) {
-  const padding = style.padding || width * 0.1
-  const opt = Object.assign({}, {text: label, width, x, y, padding}, style)
+const Text = function (x, y, width, height, label, style) {
+  const opt = Object.assign({}, style, {text: label, width, x, y})
   const text = new Konva.Text(opt)
   layer.add(text)
 }
@@ -142,7 +162,7 @@ const Box = function (centerX, centerY, width, height, label, style) {
   const opt = Object.assign({}, style, {x, y, width, height})
   var rect = new Konva.Rect(opt)
   layer.add(rect)
-  Text(x, y, width, label, style.fontType)
+  Text(x, y, width, height, label, style.fontType)
 }
 
 const Line = function (a, type) {
@@ -165,7 +185,6 @@ const Line = function (a, type) {
   })
   layer.add(arrow)
 }
-void Line
 
 const shortLine = function (oldPoints, k = 0.8) {
   let points = oldPoints.slice()
@@ -177,11 +196,16 @@ const shortLine = function (oldPoints, k = 0.8) {
 }
 
 const draw = function (info, opt = {}) {
-  const {nodesInfo, arrowsInfo, types} = info
+  const {nodesInfo, labelInfo, arrowsInfo, types} = info
 
   for (let a of arrowsInfo) {
     const type = types[a.type]
     Line(a, type)
+  }
+  for (let l of labelInfo) {
+    const {x, y, width, height, label} = l
+    const type = types['defaultAnnotation']
+    Box(x, y, width, height, label, type)
   }
 
   for (let name of Object.keys(nodesInfo)) {
@@ -191,7 +215,7 @@ const draw = function (info, opt = {}) {
     Box(x, y, width, height, string, type)
   }
 }
-
+console.log(input)
 draw(input)
 
 stage.add(layer)

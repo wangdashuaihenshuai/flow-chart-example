@@ -11,6 +11,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "dagre": "^0.7.4",
     "konva": "^1.6.3",
     "vue": "^2.3.3"
   },
