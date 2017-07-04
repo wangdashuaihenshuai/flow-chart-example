@@ -13,7 +13,7 @@
 <script>
 const {compiler, layout, Container} = require('Hachart')
 const delay = 1000
-const c = `
+let c = `
 type Condition struct {
   "extend": "deafultShape",
   "fill": "#fcb738"
@@ -109,10 +109,6 @@ def close:Close("destroyed")
 end
 
 def en:Close("结束")
-  () -> next
-end
-
-def next("test")
 end
 `
 export default {
@@ -152,7 +148,6 @@ export default {
         const c = new Container({containerID: 'container'})
         c.draw(input)
       } catch (e) {
-        console.log(code)
         console.log(e)
       }
     }
