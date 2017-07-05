@@ -1,17 +1,22 @@
 <template>
-  <div class="all">
-    <div class="edit">
-      <codemirror :code="code" :options="editorOption" @change="codeChange"></codemirror>
+  <div>
+    <div class="error">
+      {{error}}
     </div>
-    <div class="canvas-container">
-      <div id="container">
+    <div class="all">
+      <div class="edit">
+        <codemirror :code="code" :options="editorOption" @change="codeChange"></codemirror>
+      </div>
+      <div class="canvas-container">
+        <div id="container">
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-const {compiler, layout, Container} = require('Hachart')
+const {compiler, layout, Container} = require('ha-chart')
 const delay = 1000
 let c = `
 type Condition struct {
@@ -115,6 +120,7 @@ export default {
   name: 'hello',
   data () {
     return {
+      error: '',
       code: c,
       renderClock: null,
       editorOption: {
@@ -147,8 +153,9 @@ export default {
         const input = layout(compiler(code), {})
         const c = new Container({containerID: 'container'})
         c.draw(input)
+        this.error = ''
       } catch (e) {
-        console.log(e)
+        this.error = e.message || e
       }
     }
   }
@@ -156,6 +163,9 @@ export default {
 </script>
 
 <style>
+.error {
+  color: red;
+}
 .edit {
   width: 50%;
 }
