@@ -144,7 +144,7 @@ export default {
     },
     render (code) {
       try {
-        const input = layout(compiler(code))
+        const input = layout(compiler(code), {})
         const c = new Container({containerID: 'container'})
         c.draw(input)
       } catch (e) {
